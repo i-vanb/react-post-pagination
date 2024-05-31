@@ -34,17 +34,22 @@ const PostsComponent = (props: PageProps) => {
     setLimit(newLimit)
   }
 
+  const setFilterHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    if(currentPage !== 1) setCurrentPage(1)
+    setFilter(e.target.value)
+  }
+
   return (
     <div>
       <div className="flex flex-col mb-6">
         <h2 className="font-bold mb-6">Posts</h2>
         <label className="text-sm mb-2">Фильтровать по названию</label>
         <input className="px-4 py-2 border rounded max-w-[300px]" type="text" value={filter}
-               onChange={(e) => setFilter(e.target.value)} placeholder="Search..."/>
+               onChange={setFilterHandler} placeholder="Search..."/>
       </div>
       <div className="flex gap-4 items-center justify-between flex-wrap-reverse">
         <div>
-          {list.length && <Pagination total={list.length} currentPage={currentPage} setPage={setPage} limit={limit}/>}
+          <Pagination total={list.length} currentPage={currentPage} setPage={setPage} limit={limit}/>
         </div>
         <div>
           <label>Количество записей на странице</label>
@@ -55,7 +60,7 @@ const PostsComponent = (props: PageProps) => {
           </select>
         </div>
       </div>
-      {posts && <PostList list={posts} setPage={setPage}/>}
+      <PostList list={posts} setPage={setPage}/>
     </div>
   )
 }
